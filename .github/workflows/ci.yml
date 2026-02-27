@@ -64,8 +64,8 @@ jobs:
           SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
           IMAGE_URI=${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/${{ vars.ECR_REPOSITORY }}
 
-          # Docker 빌드
-          docker build -t $IMAGE_URI:$SHORT_SHA .
+          # Docker 빌드 (EC2가 ARM(t4g)이므로 arm64로 빌드)
+          docker build --platform linux/arm64 -t $IMAGE_URI:$SHORT_SHA .
 
           # ECR push
           docker push $IMAGE_URI:$SHORT_SHA
